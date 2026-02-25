@@ -1,0 +1,15 @@
+LISTA DE PRIORIDADES Sistema de Gestão de Oficina Mecânica
+
+PRIORIDADE ALTA (ESSENCIAL) 1. Cadastro de Clientes 2. Cadastro de
+Veículos 3. Abertura de Ordem de Serviço 4. Registro de Serviços
+realizados 5. Cálculo automático do valor total 6. Registro de
+Pagamentos 7. Conexão com o Banco de Dados
+
+PRIORIDADE MÉDIA (IMPORTANTE) 8. Controle de Estoque (Peças) 9.
+Atualização automática do estoque 10. Listagem de clientes cadastrados
+11. Listagem de ordens de serviço 12. Consulta por placa do veículo
+
+PRIORIDADE BAIXA (EXTRAS) 13. Relatórios simples (mensal, serviços
+realizados) 14. Sistema de Login (usuários) 15. Controle de Funcionários
+16. Dashboard com resumo financeiro 17. Interface com design mais
+moderno
