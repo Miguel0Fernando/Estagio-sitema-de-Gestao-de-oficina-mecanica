@@ -1,0 +1,252 @@
+/* ===== TEMA ESCURO ===== */
+body.dark-theme {
+  background-color: var(--darker) !important;
+  color: var(--light) !important;
+}
+
+/* Navbar */
+body.dark-theme .navbar {
+  background: rgba(30, 43, 58, 0.95) !important;
+  border-bottom: 1px solid rgba(74, 158, 255, 0.2) !important;
+}
+
+body.dark-theme .navbar-brand,
+body.dark-theme .nav-link {
+  color: var(--light) !important;
+}
+
+body.dark-theme .nav-link:hover {
+  color: var(--primary-light) !important;
+}
+
+/* Sidebar */
+body.dark-theme .sidebar {
+  background: var(--secondary) !important;
+  border-right: 1px solid rgba(74, 158, 255, 0.2) !important;
+}
+
+body.dark-theme .sidebar-brand .brand-africanas {
+  color: var(--light) !important;
+}
+
+body.dark-theme .user-details h4,
+body.dark-theme .user-details p {
+  color: var(--light) !important;
+}
+
+body.dark-theme .nav-link {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.dark-theme .nav-link:hover {
+  background: rgba(74, 158, 255, 0.2) !important;
+  color: var(--light) !important;
+}
+
+body.dark-theme .nav-link.active {
+  background: var(--gradient-primary) !important;
+  color: white !important;
+}
+
+/* Main Content */
+body.dark-theme .main-content {
+  background-color: var(--darker) !important;
+}
+
+body.dark-theme .top-bar {
+  background: var(--secondary) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-theme .menu-toggle {
+  background: rgba(74, 158, 255, 0.2) !important;
+  color: var(--primary) !important;
+}
+
+body.dark-theme .search-bar input {
+  background: var(--secondary) !important;
+  border-color: rgba(74, 158, 255, 0.2) !important;
+  color: var(--light) !important;
+}
+
+body.dark-theme .search-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-theme .search-bar i {
+  color: var(--primary) !important;
+}
+
+body.dark-theme .action-btn {
+  background: rgba(74, 158, 255, 0.2) !important;
+  color: var(--primary) !important;
+}
+
+/* Cards */
+body.dark-theme .stat-card,
+body.dark-theme .chart-card,
+body.dark-theme .table-card,
+body.dark-theme .service-card,
+body.dark-theme .vehicle-item,
+body.dark-theme .contact-card,
+body.dark-theme .contact-form {
+  background: var(--secondary) !important;
+  border-color: rgba(74, 158, 255, 0.2) !important;
+}
+
+body.dark-theme .stat-title,
+body.dark-theme .chart-title,
+body.dark-theme .table-title {
+  color: var(--primary-light) !important;
+}
+
+body.dark-theme .stat-value {
+  color: var(--light) !important;
+}
+
+body.dark-theme .stat-icon {
+  background: rgba(74, 158, 255, 0.2) !important;
+}
+
+/* Tabelas */
+body.dark-theme .table {
+  color: var(--light) !important;
+}
+
+body.dark-theme .table th {
+  color: var(--primary-light) !important;
+  border-bottom-color: rgba(74, 158, 255, 0.2) !important;
+}
+
+body.dark-theme .table td {
+  border-bottom-color: rgba(74, 158, 255, 0.1) !important;
+  color: var(--light) !important;
+}
+
+body.dark-theme .table tbody tr:hover {
+  background: rgba(74, 158, 255, 0.1) !important;
+}
+
+body.dark-theme .table-filter {
+  background: var(--darker) !important;
+  border-color: rgba(74, 158, 255, 0.2) !important;
+  color: var(--light) !important;
+}
+
+/* Badges */
+body.dark-theme .badge-pending {
+  background: rgba(255, 183, 77, 0.2) !important;
+  color: #ffb74d !important;
+}
+
+body.dark-theme .badge-progress {
+  background: rgba(74, 158, 255, 0.2) !important;
+  color: #4a9eff !important;
+}
+
+body.dark-theme .badge-completed {
+  background: rgba(76, 175, 158, 0.2) !important;
+  color: #4caf9e !important;
+}
+
+body.dark-theme .badge-cancelled {
+  background: rgba(255, 107, 107, 0.2) !important;
+  color: #ff6b6b !important;
+}
+
+/* Modais */
+body.dark-theme .modal-content {
+  background: var(--secondary) !important;
+  color: var(--light) !important;
+}
+
+body.dark-theme .modal-header {
+  background: var(--gradient-primary) !important;
+}
+
+body.dark-theme .modal-footer {
+  border-top-color: rgba(74, 158, 255, 0.2) !important;
+}
+
+body.dark-theme .form-control,
+body.dark-theme .form-select {
+  background: var(--darker) !important;
+  border-color: rgba(74, 158, 255, 0.2) !important;
+  color: var(--light) !important;
+}
+
+body.dark-theme .form-control:focus,
+body.dark-theme .form-select:focus {
+  background: var(--darker) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px rgba(74, 158, 255, 0.2) !important;
+}
+
+body.dark-theme .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark-theme .form-label {
+  color: var(--light) !important;
+}
+
+/* Toasts */
+body.dark-theme .toast {
+  background: var(--secondary) !important;
+  color: var(--light) !important;
+}
+
+body.dark-theme .toast-header {
+  background: var(--darker) !important;
+  color: var(--light) !important;
+  border-bottom-color: rgba(74, 158, 255, 0.2) !important;
+}
+
+body.dark-theme .toast-header strong {
+  color: var(--light) !important;
+}
+
+body.dark-theme .toast-header small {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Gráficos - Chart.js */
+body.dark-theme .chart-container canvas {
+  filter: invert(0.9) hue-rotate(180deg);
+}
+
+/* Footer e Contato */
+body.dark-theme .footer {
+  background: var(--secondary) !important;
+}
+
+body.dark-theme .contact-section {
+  background: var(--darker) !important;
+}
+
+body.dark-theme .contact-item .contact-text p {
+  color: var(--light) !important;
+}
+
+body.dark-theme .contact-item .contact-text h4 {
+  color: var(--primary-light) !important;
+}
+
+/* Scrollbar para tema escuro */
+body.dark-theme ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+body.dark-theme ::-webkit-scrollbar-track {
+  background: var(--darker);
+}
+
+body.dark-theme ::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 5px;
+}
+
+body.dark-theme ::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-light);
+}

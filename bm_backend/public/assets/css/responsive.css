@@ -1,0 +1,125 @@
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 992px) {
+    /* Navbar */
+    .navbar-collapse {
+        background: white;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-top: 1rem;
+    }
+    
+    body.dark-theme .navbar-collapse {
+        background: var(--secondary);
+    }
+    
+    /* Hero Section */
+    .hero-section .row {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+    
+    .hero-section .col-lg-6:first-child {
+        margin-top: 2rem;
+    }
+    
+    /* Dashboard */
+    .dashboard-sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .dashboard-sidebar.show {
+        transform: translateX(0);
+    }
+    
+    .dashboard-main {
+        margin-left: 0 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Tipografia */
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+    
+    /* Cards */
+    .service-card,
+    .team-card {
+        margin-bottom: 1rem;
+    }
+    
+    /* Dashboard Cards */
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+    
+    /* Tabelas */
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    .table {
+        min-width: 600px;
+    }
+    
+    /* Modais */
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Botões */
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Dashboard */
+    .dashboard-content {
+        padding: 1rem;
+    }
+    
+    .top-bar {
+        padding: 1rem;
+    }
+    
+    /* Gráficos */
+    .chart-container {
+        min-height: 250px;
+    }
+}
+
+/* ===== IMPRESSÃO ===== */
+@media print {
+    .dashboard-sidebar,
+    .top-bar,
+    .btn,
+    .modal-footer {
+        display: none !important;
+    }
+    
+    .dashboard-main {
+        margin: 0 !important;
+    }
+    
+    .modal {
+        position: relative !important;
+        display: block !important;
+    }
+}

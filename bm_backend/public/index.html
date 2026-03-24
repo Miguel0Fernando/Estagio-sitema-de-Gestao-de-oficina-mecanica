@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3YC AFRICANAS — Sistema de Gestão de Oficina</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:      #f0f4ff;
+            --bg2:     #e8eeff;
+            --bg3:     #dde5ff;
+            --card:    #ffffff;
+            --border:  rgba(0,0,0,0.07);
+            --border2: rgba(0,0,0,0.14);
+            --accent:  #3b82f6;
+            --accent2: #6366f1;
+            --accent3: #8b5cf6;
+            --green:   #10b981;
+            --orange:  #f59e0b;
+            --red:     #ef4444;
+            --text:    #0f172a;
+            --text2:   #475569;
+            --text3:   #94a3b8;
+        }
+        body.dark {
+            --bg:      #070b14;
+            --bg2:     #0d1220;
+            --bg3:     #131929;
+            --card:    #111827;
+            --border:  rgba(255,255,255,0.07);
+            --border2: rgba(255,255,255,0.14);
+            --text:    #f1f5f9;
+            --text2:   #94a3b8;
+            --text3:   #475569;
+        }
+        body.dark .blob1 { background:rgba(59,130,246,0.12); }
+        body.dark .blob2 { background:rgba(139,92,246,0.10); }
+        body.dark .blob3 { background:rgba(16,185,129,0.08); }
+        body:not(.dark) .blob1 { background:rgba(59,130,246,0.06); }
+        body:not(.dark) .blob2 { background:rgba(139,92,246,0.05); }
+        body:not(.dark) .blob3 { background:rgba(16,185,129,0.04); }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
+
+        /* BLOBS */
+        .blob { position:fixed; border-radius:50%; filter:blur(120px); pointer-events:none; z-index:0; animation:blobFloat 8s ease-in-out infinite; }
+        .blob1 { width:600px; height:600px; background:rgba(59,130,246,0.12); top:-200px; left:-200px; }
+        .blob2 { width:500px; height:500px; background:rgba(139,92,246,0.10); bottom:-150px; right:-100px; animation-delay:-3s; }
+        .blob3 { width:400px; height:400px; background:rgba(16,185,129,0.08); top:40%; left:40%; animation-delay:-6s; }
+        @keyframes blobFloat { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(30px,-30px) scale(1.05)} 66%{transform:translate(-20px,20px) scale(0.95)} }
+
+        /* NAVBAR */
+        .navbar { position:fixed; top:0; left:0; right:0; z-index:100; padding:20px 0; background:rgba(240,244,255,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); transition:all 0.3s; }
+        body.dark .navbar { background:rgba(7,11,20,0.85); }
+        .navbar.scrolled { padding:12px 0; }
+        .nav-brand { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; text-decoration:none; display:flex; align-items:center; gap:10px; }
+        .brand-icon { width:38px; height:38px; background:linear-gradient(135deg,var(--accent),var(--accent3)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; color:#fff; box-shadow:0 4px 16px rgba(59,130,246,0.4); }
+        .brand-3yc { background:linear-gradient(135deg,var(--accent),var(--accent3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .brand-rest { color:var(--text2); font-size:18px; }
+        .nav-link-item { color:var(--text2); text-decoration:none; font-size:14px; padding:8px 16px; border-radius:8px; transition:all 0.2s; }
+        .nav-link-item:hover { color:var(--text); background:rgba(255,255,255,0.05); }
+        .btn-nav-login { background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); color:var(--accent); padding:8px 20px; border-radius:10px; font-size:14px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; text-decoration:none; display:inline-flex; align-items:center; gap:8px; }
+        .btn-nav-login:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+        .btn-nav-primary { background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; color:#fff; padding:8px 20px; border-radius:10px; font-size:14px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; text-decoration:none; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 16px rgba(59,130,246,0.3); }
+        .btn-nav-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(59,130,246,0.4); color:#fff; }
+
+        /* HERO */
+        .hero { min-height:100vh; display:flex; align-items:center; padding:120px 0 80px; position:relative; }
+        .hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.25); border-radius:100px; padding:6px 16px; font-size:13px; color:var(--accent); margin-bottom:28px; animation:fadeUp 0.6s ease both; }
+        .hero-badge .dot { width:6px; height:6px; background:var(--accent); border-radius:50%; animation:pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.5)} }
+        .hero-title { font-family:'Syne',sans-serif; font-size:clamp(40px,6vw,70px); font-weight:800; line-height:1.1; margin-bottom:24px; animation:fadeUp 0.6s ease 0.1s both; }
+        .gradient-text { background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .hero-desc { font-size:18px; color:var(--text2); line-height:1.7; max-width:520px; margin-bottom:40px; animation:fadeUp 0.6s ease 0.2s both; }
+        .hero-btns { display:flex; gap:16px; flex-wrap:wrap; animation:fadeUp 0.6s ease 0.3s both; }
+        .btn-hero-primary { background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; color:#fff; padding:14px 32px; border-radius:14px; font-size:16px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.3s; display:inline-flex; align-items:center; gap:10px; box-shadow:0 8px 32px rgba(59,130,246,0.35); text-decoration:none; }
+        .btn-hero-primary:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(59,130,246,0.5); color:#fff; text-decoration:none; }
+        .btn-hero-outline { background:transparent; border:1px solid var(--border2); color:var(--text2); padding:14px 32px; border-radius:14px; font-size:16px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.3s; display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
+        .btn-hero-outline:hover { border-color:var(--accent); color:var(--accent); background:rgba(59,130,246,0.05); text-decoration:none; }
+        .hero-stats { display:flex; gap:40px; margin-top:56px; animation:fadeUp 0.6s ease 0.4s both; }
+        .hero-stat-num { font-family:'Syne',sans-serif; font-size:32px; font-weight:800; background:linear-gradient(135deg,var(--accent),var(--accent3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .hero-stat-label { font-size:13px; color:var(--text3); margin-top:2px; }
+
+        /* PREVIEW */
+        .preview-wrap { position:relative; animation:fadeUp 0.8s ease 0.3s both; }
+        .preview-glow { position:absolute; inset:-2px; background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3)); border-radius:22px; filter:blur(20px); opacity:0.3; z-index:-1; }
+        .preview-img { width:100%; background:var(--card); border:1px solid var(--border2); border-radius:20px; overflow:hidden; box-shadow:0 32px 80px rgba(0,0,0,0.12); }
+        body.dark .preview-img { box-shadow:0 32px 80px rgba(0,0,0,0.6); }
+        .preview-topbar { background:var(--bg2); padding:14px 20px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); }
+        .preview-dot { width:10px; height:10px; border-radius:50%; }
+
+        /* SECTIONS */
+        .section { padding:100px 0; position:relative; }
+        .section-label { display:inline-flex; align-items:center; gap:8px; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); border-radius:100px; padding:6px 16px; font-size:12px; color:var(--accent); text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; }
+        .section-title { font-family:'Syne',sans-serif; font-size:clamp(28px,4vw,42px); font-weight:700; line-height:1.2; margin-bottom:16px; }
+        .section-desc { font-size:16px; color:var(--text2); line-height:1.7; max-width:480px; }
+
+        /* FEATURES */
+        .feature-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:28px; transition:all 0.3s; height:100%; box-shadow:0 2px 12px rgba(0,0,0,0.05); }
+        .feature-card:hover { border-color:var(--border2); transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,0.4); }
+        .feature-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:20px; }
+        .fi-blue  { background:rgba(59,130,246,0.15); color:var(--accent); }
+        .fi-green { background:rgba(16,185,129,0.15); color:var(--green); }
+        .fi-purple{ background:rgba(139,92,246,0.15); color:var(--accent3); }
+        .fi-orange{ background:rgba(245,158,11,0.15); color:var(--orange); }
+        .fi-red   { background:rgba(239,68,68,0.15);  color:var(--red); }
+        .fi-cyan  { background:rgba(6,182,212,0.15);  color:#06b6d4; }
+        .feature-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:600; margin-bottom:10px; }
+        .feature-desc { font-size:14px; color:var(--text2); line-height:1.6; }
+
+        /* STATS */
+        .stats-section { background:linear-gradient(135deg,rgba(59,130,246,0.05),rgba(139,92,246,0.05)); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+        .big-stat { text-align:center; padding:20px; }
+        .big-stat-num { font-family:'Syne',sans-serif; font-size:52px; font-weight:800; background:linear-gradient(135deg,var(--accent),var(--accent3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .big-stat-label { color:var(--text2); font-size:15px; margin-top:8px; }
+
+        /* CTA */
+        .cta-card { background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(139,92,246,0.08)); border:1px solid rgba(59,130,246,0.2); border-radius:32px; padding:60px 40px; position:relative; overflow:hidden; }
+
+        /* FOOTER */
+        footer { border-top:1px solid var(--border); padding:40px 0; }
+
+        /* MODAIS */
+        .modal-content { background:var(--card) !important; border:1px solid var(--border2) !important; border-radius:24px !important; box-shadow:0 32px 80px rgba(0,0,0,0.2) !important; }
+        body.dark .modal-content { box-shadow:0 32px 80px rgba(0,0,0,0.6) !important; }
+        .modal-header { border-bottom:1px solid var(--border) !important; padding:24px 28px !important; }
+        .modal-footer { border-top:1px solid var(--border) !important; padding:20px 28px !important; }
+        .modal-body { padding:24px 28px !important; }
+        .modal-title { font-family:'Syne',sans-serif !important; font-size:20px !important; font-weight:700 !important; }
+        .btn-close { filter:invert(1) !important; }
+        .modal-icon { width:64px; height:64px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:26px; color:#fff; margin:0 auto 20px; box-shadow:0 8px 24px rgba(59,130,246,0.4); }
+        .form-control,.form-select { background:var(--bg3) !important; border:1px solid var(--border2) !important; color:var(--text) !important; border-radius:12px !important; padding:12px 16px !important; font-family:'DM Sans',sans-serif; font-size:15px; }
+        .form-control:focus,.form-select:focus { border-color:var(--accent) !important; box-shadow:0 0 0 3px rgba(59,130,246,0.15) !important; background:var(--bg3) !important; }
+        .form-control::placeholder { color:var(--text3) !important; }
+        .form-label { font-size:13px; font-weight:500; color:var(--text2); margin-bottom:8px; }
+        .btn-modal-primary { background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; color:#fff; padding:12px 28px; border-radius:12px; font-size:15px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 16px rgba(59,130,246,0.3); width:100%; justify-content:center; }
+        .btn-modal-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(59,130,246,0.4); }
+        .btn-modal-primary:disabled { opacity:0.7; transform:none; }
+        .divider { display:flex; align-items:center; gap:12px; margin:20px 0; color:var(--text3); font-size:13px; }
+        .divider::before,.divider::after { content:''; flex:1; height:1px; background:var(--border); }
+
+        /* TOAST */
+        .toast-container-custom { position:fixed; bottom:24px; right:24px; z-index:9999; display:flex; flex-direction:column; gap:8px; }
+        .toast-custom { background:var(--card); border:1px solid var(--border2); border-radius:14px; padding:14px 18px; display:flex; align-items:center; gap:12px; font-size:14px; box-shadow:0 16px 48px rgba(0,0,0,0.5); animation:slideUp 0.3s ease; min-width:280px; }
+        @keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .toast-success .ti { color:var(--green); font-size:18px; }
+        .toast-error .ti   { color:var(--red);   font-size:18px; }
+        .toast-info .ti    { color:var(--accent); font-size:18px; }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+
+        /* Modo Claro — ajustes específicos */
+        body:not(.dark) .feature-card { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+        body:not(.dark) .hero-title { color: #0f172a; }
+        body:not(.dark) .brand-rest { color: #475569; }
+        body:not(.dark) .nav-link-item { color: #475569; }
+        body:not(.dark) .nav-link-item:hover { color: #0f172a; background: rgba(0,0,0,0.04); }
+        body:not(.dark) .btn-nav-login { border-color: rgba(59,130,246,0.3); }
+        body:not(.dark) .preview-topbar { background: #eef2ff; }
+        body:not(.dark) .preview-img { background: #fff; }
+        body:not(.dark) .stats-section { background: linear-gradient(135deg,rgba(59,130,246,0.04),rgba(139,92,246,0.03)); }
+        body:not(.dark) .cta-card { background: linear-gradient(135deg,rgba(59,130,246,0.07),rgba(139,92,246,0.05)); border-color: rgba(59,130,246,0.15); }
+        body:not(.dark) .modal-content { background: #fff !important; }
+        body:not(.dark) .form-control, body:not(.dark) .form-select { background: #f8faff !important; border-color: rgba(0,0,0,0.12) !important; color: #0f172a !important; }
+        body:not(.dark) .divider { color: #94a3b8; }
+        body:not(.dark) footer { border-color: rgba(0,0,0,0.07); }
+        body:not(.dark) .btn-close { filter: none !important; }
+        body:not(.dark) .big-stat-label { color: #475569; }
+        /* Transição suave */
+        body, .navbar, .feature-card, .modal-content { transition: background 0.3s, color 0.3s, border-color 0.3s; }
+
+        @media (max-width:768px) {
+            .hero-title { font-size:36px; }
+            .hero-stats { gap:24px; flex-wrap:wrap; }
+            .preview-wrap { display:none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+<div class="toast-container-custom" id="toastContainer"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="mainNav">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <a class="nav-brand" href="#">
+                <div class="brand-icon"><i class="fas fa-wrench"></i></div>
+                <span><span class="brand-3yc">3YC</span> <span class="brand-rest">AFRICANAS</span></span>
+            </a>
+            <div class="d-none d-md-flex align-items-center gap-1">
+                <a href="#features" class="nav-link-item">Funcionalidades</a>
+                <a href="#sobre" class="nav-link-item">Sobre</a>
+            </div>
+            <div class="d-flex gap-2 align-items-center">
+                <button id="themeToggleIndex" onclick="toggleIndexTheme()" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text2);transition:all 0.2s;" title="Alternar tema">
+                    <i class="fas fa-moon" id="themeIconIndex"></i>
+                </button>
+                <a href="#" class="btn-nav-login" data-bs-toggle="modal" data-bs-target="#modalLogin">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </a>
+                <a href="#" class="btn-nav-primary d-none d-sm-inline-flex" data-bs-toggle="modal" data-bs-target="#modalCadastro">
+                    Começar <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container position-relative" style="z-index:1">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="hero-badge">
+                    <span class="dot"></span> Sistema Profissional de Gestão
+                </div>
+                <h1 class="hero-title">
+                    Gerencie sua<br>
+                    oficina com<br>
+                    <span class="gradient-text">inteligência</span>
+                </h1>
+                <p class="hero-desc">
+                    Controle clientes, veículos, ordens de serviço, estoque e faturamento num único sistema moderno e completo.
+                </p>
+                <div class="hero-btns">
+                    <a href="#" class="btn-hero-primary" data-bs-toggle="modal" data-bs-target="#modalCadastro">
+                        <i class="fas fa-rocket"></i> Começar Agora
+                    </a>
+                    <a href="#" class="btn-hero-outline" data-bs-toggle="modal" data-bs-target="#modalLogin">
+                        <i class="fas fa-sign-in-alt"></i> Fazer Login
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div>
+                        <div class="hero-stat-num">7+</div>
+                        <div class="hero-stat-label">Módulos completos</div>
+                    </div>
+                    <div style="width:1px;background:var(--border)"></div>
+                    <div>
+                        <div class="hero-stat-num">3</div>
+                        <div class="hero-stat-label">Perfis de acesso</div>
+                    </div>
+                    <div style="width:1px;background:var(--border)"></div>
+                    <div>
+                        <div class="hero-stat-num">24/7</div>
+                        <div class="hero-stat-label">Disponível</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="preview-wrap">
+                    <div class="preview-glow"></div>
+                    <div class="preview-img">
+                        <div class="preview-topbar">
+                            <div class="preview-dot" style="background:#ef4444"></div>
+                            <div class="preview-dot" style="background:#f59e0b"></div>
+                            <div class="preview-dot" style="background:#10b981"></div>
+                            <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:6px;height:24px;margin-left:12px"></div>
+                        </div>
+                        <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                            <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;border-top:2px solid #3b82f6">
+                                <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:#3b82f6">4</div>
+                                <div style="font-size:11px;color:var(--text3);margin-top:4px">Clientes</div>
+                            </div>
+                            <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;border-top:2px solid #10b981">
+                                <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:#10b981">6</div>
+                                <div style="font-size:11px;color:var(--text3);margin-top:4px">Veículos</div>
+                            </div>
+                            <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;border-top:2px solid #f59e0b">
+                                <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:#f59e0b">4</div>
+                                <div style="font-size:11px;color:var(--text3);margin-top:4px">Ordens Abertas</div>
+                            </div>
+                            <div style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;border-top:2px solid #8b5cf6">
+                                <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#8b5cf6">485K Kz</div>
+                                <div style="font-size:11px;color:var(--text3);margin-top:4px">Faturamento</div>
+                            </div>
+                        </div>
+                        <div style="padding:0 20px 20px">
+                            <div style="background:var(--bg3);border-radius:12px;padding:16px">
+                                <div style="font-size:12px;color:var(--text3);margin-bottom:12px;font-family:'Syne',sans-serif;font-weight:600">Ordens por Mês</div>
+                                <div style="display:flex;align-items:flex-end;gap:6px;height:60px">
+                                    <div style="flex:1;background:rgba(59,130,246,0.3);border-radius:4px;height:40%"></div>
+                                    <div style="flex:1;background:rgba(59,130,246,0.5);border-radius:4px;height:60%"></div>
+                                    <div style="flex:1;background:rgba(59,130,246,0.4);border-radius:4px;height:45%"></div>
+                                    <div style="flex:1;background:rgba(59,130,246,0.7);border-radius:4px;height:80%"></div>
+                                    <div style="flex:1;background:rgba(59,130,246,0.9);border-radius:4px;height:100%"></div>
+                                    <div style="flex:1;background:rgba(59,130,246,0.6);border-radius:4px;height:70%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section section" id="sobre">
+    <div class="container position-relative" style="z-index:1">
+        <div class="row g-4 text-center">
+            <div class="col-6 col-md-3"><div class="big-stat"><div class="big-stat-num">7+</div><div class="big-stat-label">Módulos do sistema</div></div></div>
+            <div class="col-6 col-md-3"><div class="big-stat"><div class="big-stat-num">100%</div><div class="big-stat-label">Base de dados local</div></div></div>
+            <div class="col-6 col-md-3"><div class="big-stat"><div class="big-stat-num">3</div><div class="big-stat-label">Perfis de acesso</div></div></div>
+            <div class="col-6 col-md-3"><div class="big-stat"><div class="big-stat-num">∞</div><div class="big-stat-label">Ordens de serviço</div></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+    <div class="container position-relative" style="z-index:1">
+        <div class="text-center mb-5">
+            <div class="section-label" style="display:inline-flex"><i class="fas fa-star"></i> Funcionalidades</div>
+            <h2 class="section-title">Tudo que a sua oficina precisa</h2>
+            <p class="section-desc mx-auto" style="max-width:560px">Do cadastro de clientes ao controlo de estoque — um sistema completo para gerir cada detalhe da sua oficina.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon fi-blue"><i class="fas fa-users"></i></div>
+                    <div class="feature-title">Gestão de Clientes</div>
+                    <div class="feature-desc">Cadastre e gira todos os seus clientes com histórico completo de atendimentos, veículos e gastos acumulados.</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon fi-green"><i class="fas fa-car"></i></div>
+                    <div class="feature-title">Controlo de Veículos</div>
+                    <div class="feature-desc">Registe todos os veículos com placa, modelo, cor, ano e acompanhe o histórico completo de manutenções.</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon fi-orange"><i class="fas fa-clipboard-list"></i></div>
+                    <div class="feature-title">Ordens de Serviço</div>
+                    <div class="feature-desc">Crie, acompanhe e gerencie ordens de serviço com serviços, peças, funcionários e valor total automático.</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon fi-purple"><i class="fas fa-boxes"></i></div>
+                    <div class="feature-title">Controlo de Estoque</div>
+                    <div class="feature-desc">Monitorize peças e produtos com alertas automáticos de estoque baixo e histórico de movimentações.</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon fi-cyan"><i class="fas fa-chart-line"></i></div>
+                    <div class="feature-title">Dashboard com Gráficos</div>
+                    <div class="feature-desc">Visualize o desempenho da sua oficina com gráficos de ordens mensais, status e top clientes em tempo real.</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="feature-icon fi-red"><i class="fas fa-hard-hat"></i></div>
+                    <div class="feature-title">Gestão de Funcionários</div>
+                    <div class="feature-desc">Gira a sua equipa com perfis de acesso diferenciados para admin, funcionário e cliente.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+    <div class="container position-relative" style="z-index:1">
+        <div class="cta-card text-center">
+            <div class="section-label" style="display:inline-flex;margin-bottom:20px"><i class="fas fa-rocket"></i> Começa hoje</div>
+            <h2 class="section-title mb-3">Pronto para modernizar a sua oficina?</h2>
+            <p style="color:var(--text2);font-size:16px;max-width:480px;margin:0 auto 36px;line-height:1.7">Crie a sua conta agora e comece a gerir a sua oficina de forma profissional.</p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="#" class="btn-hero-primary" data-bs-toggle="modal" data-bs-target="#modalCadastro"><i class="fas fa-user-plus"></i> Criar Conta Grátis</a>
+                <a href="#" class="btn-hero-outline" data-bs-toggle="modal" data-bs-target="#modalLogin"><i class="fas fa-sign-in-alt"></i> Já tenho conta</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800"><span class="brand-3yc">3YC</span> <span style="color:var(--text2)">AFRICANAS</span></div>
+                <div style="font-size:13px;color:var(--text3);margin-top:8px">Sistema de Gestão de Oficina Mecânica © 2026</div>
+            </div>
+            <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                <span style="font-size:13px;color:var(--text3)">Desenvolvido com <i class="fas fa-heart" style="color:var(--red)"></i> para Angola</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- MODAL LOGIN -->
+<div class="modal fade" id="modalLogin" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="text-center mb-4">
+                    <div class="modal-icon"><i class="fas fa-wrench"></i></div>
+                    <h4 style="font-family:'Syne',sans-serif;font-weight:700;font-size:22px">Bem-vindo de volta!</h4>
+                    <p style="color:var(--text2);font-size:14px;margin-top:6px">Entre na sua conta para continuar</p>
+                </div>
+                <form id="formLogin">
+                    <div class="mb-3">
+                        <label class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="loginEmail" placeholder="seu@email.com" autocomplete="email" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="loginSenha" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-modal-primary">
+                        <i class="fas fa-sign-in-alt"></i> Entrar no Sistema
+                    </button>
+                </form>
+                <div class="divider">ou</div>
+                <p class="text-center" style="font-size:14px;color:var(--text2)">
+                    Não tem conta?
+                    <a href="#" style="color:var(--accent);text-decoration:none;font-weight:500" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalCadastro">Criar agora</a>
+                </p>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <div style="width:100%;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15);border-radius:12px;padding:12px 16px;font-size:13px;color:var(--text3)">
+                    <i class="fas fa-info-circle" style="color:var(--accent);margin-right:6px"></i>
+                    Admin: <strong style="color:var(--text2)">admin@3yc.com</strong> / <strong style="color:var(--text2)">password</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CADASTRO -->
+<div class="modal fade" id="modalCadastro" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="text-center mb-4">
+                    <div class="modal-icon" style="background:linear-gradient(135deg,var(--green),#059669)"><i class="fas fa-user-plus"></i></div>
+                    <h4 style="font-family:'Syne',sans-serif;font-weight:700;font-size:22px">Criar conta</h4>
+                    <p style="color:var(--text2);font-size:14px;margin-top:6px">Preencha os dados para começar</p>
+                </div>
+                <form id="formCadastro">
+                    <div class="mb-3">
+                        <label class="form-label">Nome completo</label>
+                        <input type="text" class="form-control" id="cadastroNome" placeholder="João Silva" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="cadastroEmail" placeholder="seu@email.com" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="cadastroSenha" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Tipo de conta</label>
+                        <select class="form-select" id="cadastroTipo" required>
+                            <option value="">Selecione...</option>
+                            <option value="cliente">Cliente</option>
+                            <option value="funcionario">Funcionário</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-modal-primary" style="background:linear-gradient(135deg,var(--green),#059669);box-shadow:0 4px 16px rgba(16,185,129,0.3)">
+                        <i class="fas fa-user-plus"></i> Criar Minha Conta
+                    </button>
+                </form>
+                <div class="divider">ou</div>
+                <p class="text-center" style="font-size:14px;color:var(--text2)">
+                    Já tem conta?
+                    <a href="#" style="color:var(--accent);text-decoration:none;font-weight:500" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalLogin">Fazer login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+});
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    if (a.getAttribute('href').length > 1) {
+        a.addEventListener('click', e => {
+            const t = document.querySelector(a.getAttribute('href'));
+            if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+        });
+    }
+});
+
+function toggleIndexTheme() {
+    document.body.classList.toggle('dark');
+    const isDark = document.body.classList.contains('dark');
+    localStorage.setItem('indexTema', isDark ? 'dark' : 'light');
+    const icon = document.getElementById('themeIconIndex');
+    if (icon) { icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon'; }
+}
+
+// Aplicar tema guardado (padrão: claro)
+if (localStorage.getItem('indexTema') === 'dark') {
+    document.body.classList.add('dark');
+    document.addEventListener('DOMContentLoaded', () => {
+        const icon = document.getElementById('themeIconIndex');
+        if (icon) icon.className = 'fas fa-sun';
+    });
+}
+</script>
+
+<script>
+// Tema — claro por padrão
+function toggleTheme() {
+    document.body.classList.toggle('dark');
+    const isDark = document.body.classList.contains('dark');
+    localStorage.setItem('tema_index', isDark ? 'dark' : 'light');
+    document.getElementById('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    document.getElementById('themeToggle').style.color = isDark ? '#f59e0b' : '';
+}
+// Carregar tema guardado (claro por padrão)
+const temaGuardado = localStorage.getItem('tema_index');
+if (temaGuardado === 'dark') {
+    document.body.classList.add('dark');
+    document.getElementById('themeIcon').className = 'fas fa-sun';
+    document.getElementById('themeToggle').style.color = '#f59e0b';
+}
+</script>
+</body>
+</html>
