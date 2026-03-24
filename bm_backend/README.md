@@ -109,11 +109,11 @@ http://localhost/3yc_oficina/public/
 
 | Tipo          | E-mail               | Senha    |
 |---------------|----------------------|----------|
-| Administrador | admin@3yc.com        | 123456   |
-| Funcionário   | joao@3yc.com         | 123456   |
-| Funcionário   | pedro@3yc.com        | 123456   |
-| Cliente       | maria@email.com      | 123456   |
-| Cliente       | joao.s@email.com     | 123456   |
+| Administrador | admin@3yc.com        | password |
+| Funcionário   | joao@3yc.com         | password |
+| Funcionário   | pedro@3yc.com        | password |
+| Cliente       | maria@email.com      | password |
+| Cliente       | joao.s@email.com     | password |
 
 > ⚠️ **Em produção:** altere as senhas após o primeiro acesso!
 
